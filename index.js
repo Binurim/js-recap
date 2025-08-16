@@ -1,5 +1,5 @@
 // Understanding closures in JavaScript
-function outer(calback) {
+function outer() {
   let a = 10;
 
   function inner() {
