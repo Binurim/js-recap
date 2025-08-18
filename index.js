@@ -62,3 +62,46 @@ scalableCounter.increment();
 
 // Garbage collection is the process of automatically freeing up memory by removing objects that are no longer reachable in the program.
 // Closures can keep references to variables even after the outer function has finished executing,  
+
+
+// .map, .filter, .reduce
+
+const users = [
+  { firstName: "Alice", lastName: "Macallister", age: 25 }, 
+  { firstName: "Bob", lastName: "George", age: 30 },
+  { firstName: "Charlie", lastName: "Doe", age: 35 },
+  { firstName: "Charles", lastName: "John", age: 35 } ];
+
+  
+  //map
+  const output = users.map(user => {
+    const fullName  = user.firstName + " " + user.lastName;
+    return fullName;
+  })
+  console.log(output); 
+
+  // filter
+  const output2 = users.filter(user => user.age > 30).map(user => {
+    return user.firstName;
+  })
+  console.log(output2);
+
+  // reduce
+  const output4 = users.reduce((acc, current) => {
+    if (current.age > 30) {
+      acc.push(current.firstName);
+    }
+    return acc;
+  }, []);
+  console.log(output4);
+
+  // {25: 1, 30: 1, 35: 2}
+  const output3 = users.reduce((acc, current) => {
+    if (acc[current.age]) {
+      acc[current.age] = ++acc[current.age];
+    } else {
+      acc[current.age] = 1;
+    }
+    return acc;
+  }, {});
+  console.log(output3);
