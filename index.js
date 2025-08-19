@@ -127,15 +127,22 @@ const users = [
   //   .then(paymentStatus => showOrderSummary(paymentStatus))
   //   .then(summary => updateWalletBalance(summary));
 
-const promise = createShoppingOrder(cart);
-
-console.log("Promise created:", promise);
-
-promise.then(orderId => {
-  console.log("Order ID:", orderId);
-}).catch(error => {
-  console.log("Error creating order:", error)
-});
+createShoppingOrder(cart)
+  .then((orderId) => {
+    console.log("Order ID:", orderId);
+    return orderId;
+  }).then((orderId) => {
+    return processPayment(orderId);
+  }).then((paymentStatus) => {
+    console.log("Payment Status:", paymentStatus);
+  }).then(() => {
+    console.log("Order processing completed successfully.");
+  })
+  .catch((error) => {
+    console.log("Error creating order:", error);
+  }).finally(() => {
+    console.log("Order processing finished.");
+  });
 
 // producer
 function createShoppingOrder(cart) {
@@ -156,5 +163,11 @@ function createShoppingOrder(cart) {
 }
 
 function validateCart(cart){
-  return !(cart && cart.length > 0);
+  return (cart && cart.length > 0);
+}
+
+function processPayment(orderId) {
+  return new Promise((resolve, reject) => {
+    resolve("Payment Successful");
+  });
 }
