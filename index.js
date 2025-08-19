@@ -105,3 +105,24 @@ const users = [
     return acc;
   }, {});
   console.log(output3);
+
+
+  // Promises
+  const cart = ["item1", "item2", "item3" ];
+
+  // Callback Hell
+  createOrder(cart, function(orderId) {
+    processPayment(orderId, function(paymentStatus) {
+      showOrderSummary(orderId, paymentStatus, function(summary) {
+        updateWalletBalance(summary, function(balance) {
+          console.log("Final wallet balance:", balance);
+        });
+      });
+    });
+  });
+
+  // Promises Chain
+  createOrder(cart)
+    .then(orderId => processPayment(orderId)) 
+    .then(paymentStatus => showOrderSummary(paymentStatus))
+    .then(summary => updateWalletBalance(summary));
