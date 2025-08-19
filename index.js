@@ -111,18 +111,50 @@ const users = [
   const cart = ["item1", "item2", "item3" ];
 
   // Callback Hell
-  createOrder(cart, function(orderId) {
-    processPayment(orderId, function(paymentStatus) {
-      showOrderSummary(orderId, paymentStatus, function(summary) {
-        updateWalletBalance(summary, function(balance) {
-          console.log("Final wallet balance:", balance);
-        });
-      });
-    });
-  });
+  // createOrder(cart, function(orderId) {
+  //   processPayment(orderId, function(paymentStatus) {
+  //     showOrderSummary(orderId, paymentStatus, function(summary) {
+  //       updateWalletBalance(summary, function(balance) {
+  //         console.log("Final wallet balance:", balance);
+  //       });
+  //     });
+  //   });
+  // });
 
   // Promises Chain
-  createOrder(cart)
-    .then(orderId => processPayment(orderId)) 
-    .then(paymentStatus => showOrderSummary(paymentStatus))
-    .then(summary => updateWalletBalance(summary));
+  // createOrder(cart)
+  //   .then(orderId => processPayment(orderId)) 
+  //   .then(paymentStatus => showOrderSummary(paymentStatus))
+  //   .then(summary => updateWalletBalance(summary));
+
+const promise = createShoppingOrder(cart);
+
+console.log("Promise created:", promise);
+
+promise.then(orderId => {
+  console.log("Order ID:", orderId);
+}).catch(error => {
+  console.log("Error creating order:", error)
+});
+
+// producer
+function createShoppingOrder(cart) {
+ const promise = new Promise((resolve, reject) => {
+  if(!validateCart(cart)) {
+    reject("Invalid cart");
+  }
+
+  const orderId = Math.random().toString(36).substring(2, 15);
+  if (orderId) {
+    setTimeout(() => {
+      resolve(orderId);
+    }, 5000);
+  }
+ })
+
+ return promise;
+}
+
+function validateCart(cart){
+  return !(cart && cart.length > 0);
+}
